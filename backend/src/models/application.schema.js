@@ -17,8 +17,7 @@ const ApplicationSchema = new Schema({
     },
     jobPortal: {
         type: Schema.Types.ObjectId,
-        ref: "Portal",  
-        required: true
+        ref: "Portal"
     },
     applicationLink: {
         type: String

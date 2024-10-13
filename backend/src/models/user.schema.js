@@ -16,6 +16,9 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    refreshToken: {
+        type : String,
+    },
     applications: [{
         type: Schema.Types.ObjectId,
         ref: "Application"  
