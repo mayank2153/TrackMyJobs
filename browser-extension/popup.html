@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Tracker</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 p-4">
+  <div id="loggedOut" class="hidden">
+    <p class="text-center mb-4">Please log in to start tracking jobs.</p>
+    <button id="loginBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Log In
+    </button>
+  </div>
+
+  <div id="loggedIn" class="hidden">
+    <p class="text-center mb-4">Welcome! You are logged in.</p>
+    <button id="logoutBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+      Log Out
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

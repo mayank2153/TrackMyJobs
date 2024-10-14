@@ -1,12 +1,28 @@
 import './App.css'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import Login from './components/login';
 
-function App() {
-
-  return (
-   <div className='bg-red-400 text-2xl'>
-    Track my Jobs frontend
-   </div>
-  )
+function Layout(): JSX.Element {
+  return <Outlet />;
 }
 
-export default App
+const appRouting = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "login",  
+        element: <Login />
+      }
+    ]
+  }
+]);
+
+function App() {
+  return (
+    <RouterProvider router={appRouting} />
+  );
+}
+
+export default App;

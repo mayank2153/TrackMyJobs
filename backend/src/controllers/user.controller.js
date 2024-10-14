@@ -51,55 +51,56 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
 
   
-const loginUser = asyncHandler(async(req, res) => {
-    const {email, password} = req.body
-
-    if(!password){
-        throw new ApiError(400, "Password is required")
+  const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+  
+    if (!password) {
+      throw new ApiError(400, "Password is required");
     }
-    if(!email){
-        throw new ApiError(400, "Email is required")
+    if (!email) {
+      throw new ApiError(400, "Email is required");
     }
-
-    const existedUser = await User.findOne({
-        email
-    })
-
-    if(!existedUser){
-        throw new ApiError(400,"User doesnot exist")
+  
+    const existedUser = await User.findOne({ email });
+  
+    if (!existedUser) {
+      throw new ApiError(400, "User does not exist");
     }
-
-    const isPasswordValid = await existedUser.isPasswordCorrect(password)
-
-    if(!isPasswordValid){
-        throw new ApiError(401, "Invalid User Credentials")
+  
+    const isPasswordValid = await existedUser.isPasswordCorrect(password);
+  
+    if (!isPasswordValid) {
+      throw new ApiError(401, "Invalid User Credentials");
     }
-    console.log("existed user",existedUser)
-    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(existedUser._id)
-    console.log("accessToken, refreshToken",accessToken, refreshToken)
-    const loggedInUser = await User.findById(existedUser._id).select("-password -refreshToken")
-
+  
+    const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(existedUser._id);
+    const loggedInUser = await User.findById(existedUser._id).select("-password -refreshToken");
+  
     const options = {
-        httpOnly: true,
-        maxAge: 15 * 60 * 1000,
-        sameSite:"none",
-        secure:true,
-    }
-
+      httpOnly: true,
+      maxAge: 15 * 60 * 1000, // 15 minutes
+      sameSite: "none",
+      secure: true,
+    };
+  
+    // Set cookies and return user data
     return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json(
         new ApiResponse(
-            200,
-            {
-                user: loggedInUser,accessToken,refreshToken
-            },
-            "User loggedIn successfully"
+          200,
+          {
+            user: loggedInUser, // Include user ID in the response
+            accessToken,
+            refreshToken,
+          },
+          "User logged in successfully"
         )
-    )
-})
+      );
+  });
+  
 const refreshAccessToken = asyncHandler(async(req, res) => { 
     const incomingRefreshtoken = req.cookies.refreshToken || req.body.refreshToken
 

@@ -7,7 +7,7 @@ import { Portal } from "../models/portal.schema.js";
 
 const addApplication = asyncHandler(async (req, res) => {
     try {
-        const userId = req.user._id;  // Corrected userId access
+        const userId = req.user._id;  
         const { profile, company, jobPortal, applicationLink } = req.body;
         
         const user = await User.findById(userId);
@@ -34,7 +34,7 @@ const addApplication = asyncHandler(async (req, res) => {
         }
         
         user.applications.push(application);
-        await user.save();  // Save user after updating applications
+        await user.save();  
         
         return res.status(201).json(  
             new ApiResponse(201, {application}, "Application created successfully")
