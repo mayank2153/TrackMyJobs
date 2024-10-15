@@ -1,7 +1,9 @@
 
-
+console.log("in background js")
 
 chrome.storage.local.get(['userId'], function(result) {
+  console.log("function ke andar")
+  console.log("result:",result)
   if (result.userId) {
     console.log('User is logged in with ID:', result.userId);
     // Proceed with other extension functionalities
@@ -9,7 +11,7 @@ chrome.storage.local.get(['userId'], function(result) {
       if (message.type === 'SAVE_JOB_DATA') {
         const { profile, company, jobPortal } = message.jobData;
     
-        console.log('Received job data:', jobTitle, companyName, jobUrl);
+        console.log('Received job data:', profile, company, jobPortal);
     
         fetch('http://localhost:4000/api/application/add-Application', {
           method: 'POST',
